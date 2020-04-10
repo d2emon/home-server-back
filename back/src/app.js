@@ -4,13 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var config = require('config');
+var config = require('back/src/config');
 var log = require('winston');
 var mongoose = require('mongoose');
 
 log.info(config.get('PORT'));
 
-var routes = require('./routes/index');
+var routes = require('./routes');
 var users = require('./routes/users');
 
 var app = express();
