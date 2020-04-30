@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var config = require('config');
 var log = require('winston');
+var mongoose = require('mongoose');
 
 log.info(config.get('PORT'));
 
