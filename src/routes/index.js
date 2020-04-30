@@ -9,6 +9,7 @@ var article = require('../data/article.json');
 var stores = require('../data/stores.json');
 var albums = require('../data/albums.json');
 var slides = require('../data/slides.json');
+var videosFull = require('../data/videosFull.json');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -37,7 +38,8 @@ router.get('/audio.:format?', function(req, res) {
 
 router.get('/video.:format?', function(req, res) {
   res.render('video', {
-    title: 'Video'
+    title: 'Video',
+    videos: videosFull,
   });
 });
 
