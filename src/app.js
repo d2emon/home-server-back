@@ -12,6 +12,7 @@ log.info(config.get('PORT'));
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var games = require('./routes/games');
 
 var app = express();
 
@@ -30,8 +31,21 @@ log.info(publicPath);
 app.use(require('less-middleware')({ src: publicPath }));
 app.use(express.static(publicPath));
 
+app.locals.siteName = "Home Server";
+app.locals.siteDescription = "Мой домашний сервер";
+app.locals.companyName = "Dmitry Kutsenko";
+app.locals.companyEmail = "d2emonium@gmail.com";
+app.locals.companyAdress = [
+  "30, ул. Бетховена",
+  "г. Луганск, ЛНР"
+];
+app.locals.menu = menu;
+
+console.log(menu);
+
 app.use('/', routes);
 app.use('/users', users);
+app.use('/games', games);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
