@@ -9,36 +9,6 @@ router.get('/', function(req, res) {
 router.get('/index.:format?', function(req, res) {
   res.render('cherry', {
     title: 'Main',
-    menu: [
-      {
-        href: "/",
-	title: "Главная"
-      },
-      {
-        href: "#",
-	title: "Слайдеры"
-      },
-      {
-        href: "#",
-	title: "Портфолио"
-      },
-      {
-        href: "#",
-	title: "Стили"
-      },
-      {
-        href: "#",
-	title: "Блог"
-      },
-      {
-        href: "#",
-	title: "Cherry"
-      },
-      {
-        href: "#",
-	title: "Контакты"
-      }
-    ],
     breadcrumbs: [
       {
         href: "/",
