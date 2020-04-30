@@ -1,0 +1,71 @@
+extends layout
+
+block content
+        #leftPan
+          #welcome
+            h2
+            p(class="subtitle")= subtitle
+            ul(id="list01")
+              each i in items.slice(0, 5)
+                li
+                  a(href="#")= i
+
+            ul(id="list02")
+              each i in items.slice(6, 11)
+                li
+                  a(href="#")= i
+
+            .clear
+
+          #previews
+            h2
+
+            each r, id in reviews
+              div(class=(id % 2) ? "previewItem01" : "previewItem02")
+                img(src=r.image, width="68", height="68", alt="")
+                .previewText
+                  p <span class="headline">#{r.title}</span> 
+                    != r.text
+                .score
+                  p Score: <span>#{r.score}</span>
+                  .clear
+
+        #rightPan
+          #ad
+            img(src=random.image, width="380", height="199", alt="", id="mainImg")
+
+            #description
+              #title
+                h2
+                p
+                  != random.text
+              #stars
+                img(src="/images/games/stars_feat.gif", width="80", height="15", alt="")
+                p Score: <span>#{random.score}/100</span>
+              ul
+                li
+                  a(href="#", title="read more") read more
+          #new
+            h2 a
+            each i, id in newGames
+              .newItem
+                img(src=i.image, width="68", height="68", alt="")
+                p
+                  a(href="#")= i.title
+                ul.btn_more
+                  li
+                    a(href="#", title="details") details
+                .clear
+
+              if id % 2
+                .clear
+
+          #wanted
+            h2
+            p(class="subtitle") Morbi volutpat leo in ligula. Integer vel. Quisque ut magna et nisi bibendum sagittis. Fusce
+            img(src=wanted.image, width="68", height="68", alt="")
+            p
+              span(class="headline")= wanted.title
+              != wanted.text
+
+        .clear

@@ -1,0 +1,34 @@
+doctype html
+html
+  head
+    title= title
+    meta(charset="utf-8")
+    meta(name="description", content=description)
+    meta(name="keywords", content=keywords)
+    link(rel="stylesheet", type="text/css", href="/stylesheets/reset.css", media="all")
+    link(rel="stylesheet", type="text/css", href="/stylesheets/games/style.css", media="all")
+  body
+    #container
+      header
+        #logo
+          a(href="/")
+            img(src="/images/games/logo.jpg", alt=siteTitle, width="247", height="34", border="0")
+        #searchForm
+          form(action="/games/search.html", method="post", enctype="multipart/form-data", name="searchForm")
+            img(src="/images/games/h_search.jpg", width="94", height="17", alt="", id="h_search")
+            input(name="searchField", type="text")
+            a(href="#")
+              img(src="/images/games/btn_search.jpg", alt="submit", width="13", height="13", border="0", id="submit")
+        ul.menu
+          each i in chapterMenu
+            li(class=i.style)
+              a(href=i.href, title=i.title)= i.title
+
+      section(id='content')
+        block content
+  footer
+    p
+      each i, id in chapterMenu
+        a(href=i.href, title=i.title)= i.title
+        != (id < chapterMenu.length - 1) ? " | " : "<br>"
+      | Copyright &copy; <a href="mailto:#{companyEmail}">#{companyName}</a>.
