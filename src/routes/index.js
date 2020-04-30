@@ -5,8 +5,6 @@ var Event = require('models/event').Event;
 var Artist = require('models/artist').Artist;
 
 var slides = require('../data/slides.json');
-var toursFull = require('../data/toursFull.json');
-var toursPast = require('../data/toursPast.json');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -74,10 +72,15 @@ router.get('/gallery.:format?', function(req, res) {
 });
 
 router.get('/tour-dates.:format?', function(req, res) {
-  res.render('tours', {
-    title: 'Tour Dates',
-    tours: toursFull,
-    past: toursPast,
+  Artist.findOne({}, function(err, artist) {
+    if (err) throw err;
+    console.log(artist.tours);
+
+    res.render('tours', {
+      title: 'Tour Dates',
+      tours: artist.tours.slice(0, 6),
+      past: artist.tours.slice(6),
+    });
   });
 });
 
