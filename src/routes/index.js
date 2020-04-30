@@ -8,6 +8,7 @@ var videos = require('../data/videos.json');
 var article = require('../data/article.json');
 var stores = require('../data/stores.json');
 var albums = require('../data/albums.json');
+var slides = require('../data/slides.json');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -17,6 +18,7 @@ router.get('/', function(req, res) {
 router.get('/index.:format?', function(req, res) {
   res.render('index', {
     title: 'About',
+    slides,
     news,
     tours,
     events,
