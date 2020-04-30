@@ -1,12 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var News = require('models/news').News;
+var Event = require('models/event').Event;
+var Artist = require('models/artist').Artist;
 
-var news = require('../data/news.json');
-var tours = require('../data/tours.json');
-var events = require('../data/events.json');
-var videos = require('../data/videos.json');
-var article = require('../data/article.json');
-var stores = require('../data/stores.json');
 var albums = require('../data/albums.json');
 var slides = require('../data/slides.json');
 var videosFull = require('../data/videosFull.json');
@@ -20,15 +17,24 @@ router.get('/', function(req, res) {
 });
 
 router.get('/index.:format?', function(req, res) {
-  res.render('index', {
-    title: 'About',
-    slides,
-    news,
-    tours,
-    events,
-    videos,
-    article,
-    stores: stores.image
+  Artist.findOne({}, function(err, artist) {
+    if (err) throw err;
+
+    News.find({}, function(err, news) {
+      if (err) throw err;
+
+      Event.find({}, function(err, events) {
+        if (err) throw err;
+
+        res.render('index', {
+          title: 'About',
+          slides,
+          news,
+          artist,
+          events,
+        });
+      });
+    });
   });
 });
 
