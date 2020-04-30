@@ -11,6 +11,7 @@
     "start": "nodejs ./src/index.js",
     "debug": "node --debug-brk src/app.js",
     "dev": "supervisor src/app.js",
+    "start-db": "mongod -v --dbpath=data/db --smallfiles",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "homepage": "https://github.com/d2emon/home-server-back#readme",
