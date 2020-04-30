@@ -10,6 +10,7 @@ var stores = require('../data/stores.json');
 var albums = require('../data/albums.json');
 var slides = require('../data/slides.json');
 var videosFull = require('../data/videosFull.json');
+var images = require('../data/images.json');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -45,7 +46,8 @@ router.get('/video.:format?', function(req, res) {
 
 router.get('/gallery.:format?', function(req, res) {
   res.render('gallery', {
-    title: 'Gallery'
+    title: 'Gallery',
+    images,
   });
 });
 
