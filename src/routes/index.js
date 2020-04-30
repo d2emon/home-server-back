@@ -39,16 +39,29 @@ router.get('/index.:format?', function(req, res) {
 });
 
 router.get('/audio.:format?', function(req, res) {
-  res.render('audio', {
-    title: 'Audio',
-    albums,
+  Artist.findOne({}, function(err, artist) {
+    if (err) throw err;
+
+    res.render('audio', {
+      title: 'Audio',
+      albums: artist.albums
+    });
   });
 });
 
 router.get('/video.:format?', function(req, res) {
-  res.render('video', {
-    title: 'Video',
-    videos: videosFull,
+  Artist.findOne({}, function(err, artist) {
+    if (err) throw err;
+
+    res.render('video', {
+      title: 'Video',
+      videos: artist.videos,
+      links: [
+        '',
+        'link-style1',
+        'link-style2',
+      ]
+    });
   });
 });
 
