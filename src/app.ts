@@ -1,17 +1,16 @@
+import bodyParser from 'body-parser'
+// import cookieParser from 'cookie-parser'
+// import cors from 'cors';
 import express from 'express'
+// import lessMiddleware from 'less-middleware'
+import mongoose from 'mongoose'
+import logger from 'morgan'
 import path from 'path'
 // import favicon from 'serve-favicon'
-import logger from 'morgan'
-// import cookieParser from 'cookie-parser'
-import bodyParser from 'body-parser'
-// import lessMiddleware from 'less-middleware'
 import log from 'winston'
-import mongoose from 'mongoose'
-
-import HttpException from './exceptions';
 import config from './config'
+import HttpException from './exceptions';
 import menu from './menu'
-
 import routes from './routes'
 // import routesUsers from './routes/users'
 // import routesGames from './routes/gamers'
