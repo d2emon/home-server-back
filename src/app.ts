@@ -15,6 +15,7 @@ import routes from './routes'
 // import routesUsers from './routes/users'
 // import routesGames from './routes/gamers'
 // import routesRock from './routes/rock'
+import routesGenerators from './routes/generators'
 
 log.configure({
     transports: [
@@ -67,6 +68,7 @@ app.use('/', routes);
 // app.use('/users', users);
 // app.use('/games', games);
 // app.use('/rock', rock);
+app.use('/generator', routesGenerators);
 
 /// catch 404 and forwarding to error handler
 app.use((req: express.Request, res: any, next: express.NextFunction) => {
