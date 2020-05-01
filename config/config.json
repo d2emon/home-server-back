@@ -1,0 +1,7 @@
+{
+  "APP_NAME": "home-server",
+  "DEBUG": "home-server:*",
+  "LOG_LEVEL": "debug",
+  "MONGO_URI": "mongodb://localhost/home-server",
+  "PORT": 3000
+}

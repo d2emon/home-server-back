@@ -16,10 +16,24 @@ import routes from './routes'
 // import routesGames from './routes/gamers'
 // import routesRock from './routes/rock'
 
-log.info(config.get('PORT'));
+log.configure({
+    transports: [
+        new log.transports.Console({
+            format: log.format.simple(),
+            level: config.get('LOG_LEVEL'),
+        }),
+        /*
+        new log.transports.File({
+            filename: config.get('LOG_FILENAME'),
+            format: log.format.json(),
+            level: config.get('LOG_LEVEL'),
+        }),
+         */
+    ],
+})
 
 const publicPath = path.join(__dirname, '..', 'public');
-log.info(publicPath);
+log.debug(`Public path: ${publicPath}`);
 
 const app =express();
 
@@ -29,6 +43,7 @@ app.set('view engine', 'pug');
 
 // app.use(favicon());
 app.use(logger('dev'));
+// app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 // app.use(cookieParser());
@@ -45,8 +60,8 @@ app.locals.companyAdress = [
 ];
 app.locals.menu = menu;
 
-// tslint:disable-next-line
-console.log(menu);
+log.debug(`Locals: ${JSON.stringify(app.locals)}`);
+log.debug(`Menu: ${JSON.stringify(menu)}`);
 
 app.use('/', routes);
 // app.use('/users', users);

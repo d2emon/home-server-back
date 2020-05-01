@@ -1,12 +1,12 @@
+const log = require('winston');
 const db = require('../db');
-const log = require('../logger')(module);
 
 function User(name) {
   this.name = name;
 }
 
 User.prototype.hello = function(who) {
-  log(db.getPhrase('Hello') + ', ' + who.name);
+  log.debug(db.getPhrase('Hello') + ', ' + who.name);
 };
 
 module.exports = User;

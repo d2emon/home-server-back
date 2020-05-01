@@ -1,5 +1,5 @@
+const log = require('winston');
 const db = require('./db');
-const log = require('./logger')(module);
 
 db.connect();
 
@@ -13,7 +13,7 @@ function run() {
 
   users.user1.hello(users.user2);
 
-  log(db.getPhrase('Run successful'));
+  log.debug(db.getPhrase('Run successful'));
 }
 
 if (module.parent) {
