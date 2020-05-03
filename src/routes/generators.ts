@@ -21,8 +21,8 @@ const realmData = textData({
     name13: generators.realm.name13,
     name14: generators.realm.name14,
     name15: generators.realm.name15,
-    name16: generators.realm.name16,
-    name17: generators.realm.name17,
+    // name16: generators.realm.name16,
+    // name17: generators.realm.name17,
     // name18: generators.realm.name18,
     // name19: generators.realm.name19,
     // name20: generators.realm.name20,
@@ -88,6 +88,8 @@ router.get('/realm.md', (req: express.Request, res: express.Response) => {
     const randomItemId = (items: any[]) => Math.floor(Math.random() * items.length)
     const valueId = {
         // 17
+        notice: () => randomItemId(generators.realm.notice),
+        creatureType: () => randomItemId(generators.realm.creatureType),
         prepare: () => randomItemId(generators.realm.prepare),
         start: () => randomItemId(generators.realm.start),
         personality: () => randomItemId(generators.realm.personality),
@@ -100,20 +102,24 @@ router.get('/realm.md', (req: express.Request, res: express.Response) => {
         value4: world(realmData.randomItem('name4')),
         value5: realmData.randomItem('name5'),
         value6: realmData.randomItem('name6'),
+
         value7: realmData.randomItem('name7'),
         value8: realmData.randomItem('name8'),
-
         value9: realmData.randomItem('name9'),
         value10: realmData.randomItem('name10'),
+
         value11: realmData.randomItem('name11'),
         value12: realmData.randomItem('name12'),
         value13: realmData.randomItem('name13'),
         value14: realmData.randomItem('name14'),
         value15: realmData.randomItem('name15'),
-        value16: realmData.randomItem('name16'),
-        value17: realmData.randomItem('name17'),
-        value17b: realmData.randomItem('name17'),
-        value17c: realmData.randomItem('name17'),
+
+        notice: generators.realm.notice[valueId.notice()],
+        creatureType: [
+            valueId.creatureType(),
+            valueId.creatureType(),
+            valueId.creatureType(),
+        ].map(itemId => generators.realm.creatureType[itemId]),
 
         prepare: generators.realm.prepare[valueId.prepare()],
         start: generators.realm.start[valueId.start()],
@@ -152,19 +158,19 @@ router.get('/realm.md', (req: express.Request, res: express.Response) => {
             data.value8 = realmData.randomItemId('name8')
         }
     }
-    while(data.value17b === data.value17) {
-        data.value17b = realmData.randomItemId('name17')
-    }
-    while((data.value17c === data.value17b) || (data.value17c === data.value17)) {
-        data.value17c = realmData.randomItemId('name17')
-    }
-    while(data.value20b === data.value20) {
-        data.value20b = realmData.randomItemId('name20')
-    }
-    while((data.value20c === data.value20b) || (data.value20c === data.value20)) {
-        data.value20c = realmData.randomItemId('name20')
-    }
      */
+
+    while ([
+        data.creatureType[0].id,
+    ].indexOf(data.creatureType[1].id) >= 0) {
+        data.creatureType[1] = generators.realm.creatureType[valueId.creatureType()];
+    }
+    while ([
+        data.creatureType[0].id,
+        data.creatureType[1].id,
+    ].indexOf(data.creatureType[2].id) >= 0) {
+        data.creatureType[2] = generators.realm.creatureType[valueId.creatureType()];
+    }
 
     while ([
         data.personality[0].id,
@@ -185,9 +191,9 @@ router.get('/realm.md', (req: express.Request, res: express.Response) => {
                 + '\n\n',
             `${data.value7.value}${data.value8.value}. Этот мир ${data.value9.value}${data.value10.value}.`
                 + '\n\n\n\n',
-            `${data.value11.value} вы ${data.value12.value} of ${data.value13.value}. ${data.value14.value}, `
-                + `${data.value15.value}. ${data.value16.value} ${data.value17.value} существ, `
-                + `${data.value17b.value} существ, и то, что может быть чем-то вроде ${data.value17c.value} существ.`
+            `${data.value11.value} вы ${data.value12.value} of ${data.value13.value}. ${data.value14.value} `
+                + `${data.value15.value}. ${data.notice.value} ${data.creatureType[0].value} существ, `
+                + `${data.creatureType[1].value} существ, и что-то вроде ${data.creatureType[2].value} существ.`
                 + '\n\n\n\n',
             `${data.start.value} и${data.prepare.value}. У вас есть ${data.personality[0].value}, `
                 + `${data.personality[1].value}, и ${data.personality[2].value}, так что ${data.opportunities.value}`
