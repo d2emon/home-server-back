@@ -1,11 +1,13 @@
+import express from 'express'
+import path from 'path'
+
+// import cors from 'cors';
+// import favicon from 'serve-favicon'
 import bodyParser from 'body-parser'
 // import cookieParser from 'cookie-parser'
-// import cors from 'cors';
-import express from 'express'
 // import lessMiddleware from 'less-middleware'
-import logger from 'morgan'
-import path from 'path'
-// import favicon from 'serve-favicon'
+
+// import logger from 'morgan'
 
 import config from './config'
 import menu from './data/menu'
@@ -16,18 +18,14 @@ import defaultError, {
 import log from './log'
 
 // Routes
-import routes from './routes'
-// import routesUsers from './routes/users'
-// import routesGames from './routes/gamers'
-// import routesRock from './routes/rock'
-import routesFill from './routes/fill'
-import routesGenerators from './routes/generators'
+import indexRouter from './routes'
+import fillRouter from './routes/fill'
+import generatorsRouter from './routes/generators'
 
 const app =express();
 
+// Locals setup
 const publicPath = path.join(__dirname, '..', 'public');
-log.debug(`Public path: ${publicPath}`);
-
 app.locals.siteName = "Home Server";
 app.locals.siteDescription = "Мой домашний сервер";
 app.locals.companyName = "Dmitry Kutsenko";
@@ -38,33 +36,32 @@ app.locals.companyAdress = [
 ];
 app.locals.menu = menu;
 
+log.debug(`Public path: ${publicPath}`);
 log.debug(`Locals: ${JSON.stringify(app.locals)}`);
 log.debug(`Menu: ${JSON.stringify(menu)}`);
 
-// view engine setup
+// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// app.use(favicon());
-app.use(logger('dev'));
+// Middleware setup
 // app.use(cors());
+// app.use(favicon());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 // app.use(cookieParser());
 // app.use(lessMiddleware({ src: publicPath }));
 app.use(express.static(publicPath));
 
-app.use('/', routes);
-// app.use('/users', users);
-// app.use('/games', games);
-// app.use('/rock', rock);
-app.use('/fill', routesFill);
-app.use('/generator', routesGenerators);
+// Routes setup
+app.use('/', indexRouter);
+app.use('/fill', fillRouter);
+app.use('/generator', generatorsRouter);
 
 app.use(error404);
-app.use(defaultError(app.get('env') === 'development'));
+app.use(defaultError);
 
 connectMongo(config.get('MONGO_URI'))
-    .then(db => log.info(`MongoDb connected to ${config.get('MONGO_URI')}`));
+    .then(() => log.info(`MongoDb connected to ${config.get('MONGO_URI')}`));
 
 export default app;
