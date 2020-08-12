@@ -3,18 +3,19 @@ import bodyParser from 'body-parser'
 // import cors from 'cors';
 import express from 'express'
 // import lessMiddleware from 'less-middleware'
-import mongoose from 'mongoose'
 import logger from 'morgan'
 import path from 'path'
 // import favicon from 'serve-favicon'
 import log from 'winston'
 import config from './config'
+import menu from './data/menu'
+import connectMongo from './db/mongo'
 import HttpException from './exceptions';
-import menu from './menu'
 import routes from './routes'
 // import routesUsers from './routes/users'
 // import routesGames from './routes/gamers'
 // import routesRock from './routes/rock'
+import routesFill from './routes/fill'
 import routesGenerators from './routes/generators'
 
 log.configure({
@@ -68,7 +69,11 @@ app.use('/', routes);
 // app.use('/users', users);
 // app.use('/games', games);
 // app.use('/rock', rock);
+app.use('/fill', routesFill);
 app.use('/generator', routesGenerators);
+
+connectMongo(config.get('MONGO_URI'))
+    .then(db => log.info(`MongoDb connected to ${config.get('MONGO_URI')}`));
 
 /// catch 404 and forwarding to error handler
 app.use((req: express.Request, res: any, next: express.NextFunction) => {

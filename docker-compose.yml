@@ -17,6 +17,7 @@ services:
       DEBUG: home-server:*
       PORT: 8083
       LOG_LEVEL: debug
+      MONGO_URI: "mongodb://mongo:27017/home-server"
       CATEGORIES_PATH: /app/data/categories.json
     links:
       - mongo

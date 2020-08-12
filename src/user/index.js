@@ -1,5 +1,5 @@
 const log = require('winston');
-const db = require('../db');
+const db = require('../db/phrases');
 
 function User(name) {
   this.name = name;
