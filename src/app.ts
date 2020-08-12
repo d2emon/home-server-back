@@ -10,7 +10,9 @@ import path from 'path'
 import config from './config'
 import menu from './data/menu'
 import connectMongo from './db/mongo'
-import HttpException from './exceptions';
+import defaultError, {
+  error404,
+} from './errorHandlers'
 import log from './log'
 
 // Routes
@@ -59,40 +61,10 @@ app.use('/', routes);
 app.use('/fill', routesFill);
 app.use('/generator', routesGenerators);
 
+app.use(error404);
+app.use(defaultError(app.get('env') === 'development'));
+
 connectMongo(config.get('MONGO_URI'))
     .then(db => log.info(`MongoDb connected to ${config.get('MONGO_URI')}`));
-
-/// catch 404 and forwarding to error handler
-app.use((req: express.Request, res: any, next: express.NextFunction) => {
-    res
-        .status(404)
-        .send('Not Found');
-});
-
-/// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use((err: HttpException, req: express.Request, res: express.Response) => {
-        res
-            .status(err.status || 500)
-            .render('error', {
-                message: err.message,
-                error: err
-            });
-    });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use((err: HttpException, req: express.Request, res: express.Response) => {
-    res
-        .status(err.status || 500)
-        .render('error', {
-            message: err.message,
-            error: {}
-        });
-});
 
 export default app;
