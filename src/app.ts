@@ -6,11 +6,14 @@ import express from 'express'
 import logger from 'morgan'
 import path from 'path'
 // import favicon from 'serve-favicon'
-import log from 'winston'
+
 import config from './config'
 import menu from './data/menu'
 import connectMongo from './db/mongo'
 import HttpException from './exceptions';
+import log from './log'
+
+// Routes
 import routes from './routes'
 // import routesUsers from './routes/users'
 // import routesGames from './routes/gamers'
@@ -18,26 +21,23 @@ import routes from './routes'
 import routesFill from './routes/fill'
 import routesGenerators from './routes/generators'
 
-log.configure({
-    transports: [
-        new log.transports.Console({
-            format: log.format.simple(),
-            level: config.get('LOG_LEVEL'),
-        }),
-        /*
-        new log.transports.File({
-            filename: config.get('LOG_FILENAME'),
-            format: log.format.json(),
-            level: config.get('LOG_LEVEL'),
-        }),
-         */
-    ],
-})
+const app =express();
 
 const publicPath = path.join(__dirname, '..', 'public');
 log.debug(`Public path: ${publicPath}`);
 
-const app =express();
+app.locals.siteName = "Home Server";
+app.locals.siteDescription = "Мой домашний сервер";
+app.locals.companyName = "Dmitry Kutsenko";
+app.locals.companyEmail = "d2emonium@gmail.com";
+app.locals.companyAdress = [
+    "30, ул. Бетховена",
+    "г. Луганск, ЛНР"
+];
+app.locals.menu = menu;
+
+log.debug(`Locals: ${JSON.stringify(app.locals)}`);
+log.debug(`Menu: ${JSON.stringify(menu)}`);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -51,19 +51,6 @@ app.use(bodyParser.urlencoded());
 // app.use(cookieParser());
 // app.use(lessMiddleware({ src: publicPath }));
 app.use(express.static(publicPath));
-
-app.locals.siteName = "Home Server";
-app.locals.siteDescription = "Мой домашний сервер";
-app.locals.companyName = "Dmitry Kutsenko";
-app.locals.companyEmail = "d2emonium@gmail.com";
-app.locals.companyAdress = [
-  "30, ул. Бетховена",
-  "г. Луганск, ЛНР"
-];
-app.locals.menu = menu;
-
-log.debug(`Locals: ${JSON.stringify(app.locals)}`);
-log.debug(`Menu: ${JSON.stringify(menu)}`);
 
 app.use('/', routes);
 // app.use('/users', users);
