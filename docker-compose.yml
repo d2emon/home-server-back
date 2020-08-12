@@ -1,0 +1,41 @@
+version: "3"
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 27018:27017
+    restart: always
+    volumes:
+      - ./data/db:/data/db
+  back:
+    build: .
+    command: npm run serve
+    depends_on:
+      - mongo
+    environment:
+      APP_NAME: home-server
+      DEBUG: home-server:*
+      PORT: 8083
+      LOG_LEVEL: debug
+      CATEGORIES_PATH: /app/data/categories.json
+    links:
+      - mongo
+    ports:
+      - 8083:8083
+    restart: always
+    volumes:
+      - ./package.json:/app/package.json
+      - ./node_modules:/app/node_modules
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./data/wiki/markdown:/app/markdown
+      - ./data/data:/app/data
+  mongo-express:
+    depends_on:
+      - mongo
+    image: mongo-express
+    links:
+      - mongo
+    ports:
+      - 8085:8081
+    restart: always
